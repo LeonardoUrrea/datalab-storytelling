@@ -1,1 +1,61 @@
-styles.css
+body {
+    font-family: Arial, sans-serif;
+    background: #0b1220;
+    color: #e6edf3;
+    margin: 0;
+}
+
+header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(90deg,#0f172a,#1e293b);
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.card {
+    background: #1e293b;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+}
+
+.card h2 {
+    margin-top: 0;
+}
+
+.highlight {
+    border-left: 6px solid #38bdf8;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background: #334155;
+}
+
+tr:nth-child(even) {
+    background: #243044;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #0f172a;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
