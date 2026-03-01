@@ -1,132 +1,104 @@
-<section>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Presión Operativa en el Laboratorio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header>
+  <h1>📊 Presión Operativa en el Laboratorio</h1>
+  <p>Análisis de saturación por día y turno – 2025</p>
+</header>
+
+<main class="container">
+
+<section class="card">
   <h2>El problema</h2>
+  <p>
+  El laboratorio opera diariamente bajo una alta demanda distribuida en tres turnos.
+  Sin embargo, no existía una visualización clara que permitiera entender cómo se distribuye
+  realmente la carga operativa a lo largo de la semana.
+  </p>
 
-  <div class="card">
-    El laboratorio opera diariamente bajo una alta demanda de análisis distribuidos en tres turnos. 
-    Sin embargo, hasta ahora no existía una visualización clara que permitiera entender 
-    cómo se distribuye realmente la carga operativa a lo largo de la semana.
-    <br><br>
-    La dirección operativa enfrenta preguntas críticas:
-    <ul>
-      <li>¿Qué turnos trabajan al límite de su capacidad?</li>
-      <li>¿En qué días se concentra la mayor presión?</li>
-      <li>¿Cuándo existe margen disponible para recibir nuevas muestras?</li>
-      <li>¿La saturación es ocasional o estructural?</li>
-    </ul>
-    La ausencia de esta lectura visual limita la toma de decisiones estratégicas 
-    sobre asignación de recursos, balance de carga y control del riesgo operativo.
-  </div>
+  <ul>
+    <li>¿Qué turnos trabajan al límite de su capacidad?</li>
+    <li>¿Dónde existe margen disponible?</li>
+    <li>¿La saturación es ocasional o estructural?</li>
+  </ul>
 </section>
-<section>
+
+<section class="card">
   <h2>Los datos analizados</h2>
+  <p>
+  El análisis se basa en <strong>49.895 registros históricos</strong> del año 2025.
+  Cada registro representa un ensayo analítico ejecutado (o no ejecutado).
+  </p>
 
-  <div class="card">
-    El análisis se basa en <strong>449.895 registros históricos</strong> correspondientes al año 2025.
-    Cada registro representa un ensayo analítico ejecutado (o no ejecutado) 
-    e incluye información sobre:
-    <ul>
-      <li>Fecha y hora de la muestra y finalización</li>
-      <li>Tiempo estándar de ejecución (minutos)</li>
-      <li>Laboratorio responsable</li>
-      <li>Estado del ensayo</li>
-      <li>Norma aplicada</li>
-    </ul>
-    Esta base permite estudiar productividad, utilización de capacidad 
-    y patrones temporales de operación.
-  </div>
+  <ul>
+    <li>Fecha y hora de muestra</li>
+    <li>Tiempo estándar de ejecución</li>
+    <li>Laboratorio responsable</li>
+    <li>Norma aplicada</li>
+  </ul>
 </section>
-<section>
+
+<section class="card">
   <h2>Cómo modelamos la operación</h2>
-
-  <div class="card">
-    Para convertir los datos en una lectura operativa coherente, se realizaron tres transformaciones clave:
-    <br><br>
-
-    <strong>1. Unificación del timestamp operativo</strong><br>
-    Se consolidó una fecha confiable usando <em>Completed Date</em> y, en su ausencia, 
-    <em>FechaMuestra</em>, debido a valores faltantes en la columna de completitud.
-    <br><br>
-
-    <strong>2. Corrección de madrugada</strong><br>
-    Los registros entre 00:00 y 05:59 fueron asignados al día operativo anterior,
-    alineando correctamente el turno nocturno.
-    <br><br>
-
-    <strong>3. Clasificación por turnos</strong>
-  </div>
+  <ol>
+    <li>Unificación del timestamp operativo.</li>
+    <li>Corrección de registros de madrugada.</li>
+    <li>Clasificación estructurada por turnos.</li>
+  </ol>
 </section>
-<section>
-  <h2>Cómo modelamos la operación</h2>
 
-  <div class="card">
-    Para convertir los datos en una lectura operativa coherente, se realizaron tres transformaciones clave:
-    <br><br>
-
-    <strong>1. Unificación del timestamp operativo</strong><br>
-    Se consolidó una fecha confiable usando <em>Completed Date</em> y, en su ausencia, 
-    <em>FechaMuestra</em>, debido a valores faltantes en la columna de completitud.
-    <br><br>
-
-    <strong>2. Corrección de madrugada</strong><br>
-    Los registros entre 00:00 y 05:59 fueron asignados al día operativo anterior,
-    alineando correctamente el turno nocturno.
-    <br><br>
-
-    <strong>3. Clasificación por turnos</strong>
-  </div>
-</section>
-<section>
+<section class="card">
   <h2>Clasificación de turnos</h2>
-
-  <div class="card">
-    <table style="width:100%; text-align:left; border-collapse:collapse;">
-      <tr style="border-bottom:1px solid #1f2a44;">
-        <th style="padding:10px;">Turno</th>
-        <th style="padding:10px;">Horario</th>
-        <th style="padding:10px;">Descripción</th>
-      </tr>
-      <tr>
-        <td style="padding:10px;">A</td>
-        <td style="padding:10px;">06:00 – 13:59</td>
-        <td style="padding:10px;">Inicio de jornada diurna</td>
-      </tr>
-      <tr>
-        <td style="padding:10px;">B</td>
-        <td style="padding:10px;">14:00 – 21:59</td>
-        <td style="padding:10px;">Turno vespertino</td>
-      </tr>
-      <tr>
-        <td style="padding:10px;">C</td>
-        <td style="padding:10px;">22:00 – 05:59</td>
-        <td style="padding:10px;">Turno nocturno (incluye madrugada)</td>
-      </tr>
-    </table>
-  </div>
+  <table>
+    <tr>
+      <th>Turno</th>
+      <th>Horario</th>
+      <th>Descripción</th>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>06:00 – 13:59</td>
+      <td>Inicio jornada diurna</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>14:00 – 21:59</td>
+      <td>Turno vespertino</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>22:00 – 05:59</td>
+      <td>Turno nocturno</td>
+    </tr>
+  </table>
 </section>
-<section>
-  <h2>Marco conceptual</h2>
 
-  <div class="card">
-    Este análisis se fundamenta en principios de:
-    <ul>
-      <li><strong>Gestión de Operaciones</strong> – Capacidad instalada vs capacidad utilizada, cuellos de botella, throughput.</li>
-      <li><strong>Teoría de Colas</strong> – Variabilidad de la demanda, congestión y saturación del sistema.</li>
-      <li><strong>ISO 17025</strong> – Control del flujo de muestras y optimización de recursos.</li>
-    </ul>
-    El objetivo es traducir estos conceptos en evidencia visual aplicable a la gestión real del laboratorio.
-  </div>
-</section>
-<section>
+<section class="card highlight">
   <h2>Conclusión estratégica</h2>
+  <p>
+  La saturación operativa no es un evento aislado.
+  Se concentra en determinados días y turnos,
+  lo que sugiere patrones estructurales de presión.
+  </p>
 
-  <div class="card">
-    La saturación operativa no es un evento aislado.
-    Es un fenómeno medible que se concentra en determinados días y turnos.
-    <br><br>
-    Visualizar estos patrones permite anticipar cuellos de botella,
-    redistribuir carga, optimizar recursos y reducir riesgos operativos.
-    <br><br>
-    Transformar datos históricos en narrativa visual es el primer paso
-    hacia una gestión basada en evidencia.
-  </div>
+  <p>
+  Visualizar estos patrones permite anticipar cuellos de botella,
+  redistribuir carga y reducir riesgo operativo.
+  </p>
 </section>
+
+</main>
+
+<footer>
+  Proyecto de Visualización & Storytelling – 2025
+</footer>
+
+</body>
+</html>
