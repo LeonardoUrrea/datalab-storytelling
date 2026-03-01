@@ -2,10 +2,160 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>DataLab Storytelling</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Cuándo se satura el laboratorio? | Radiografía operativa 2025</title>
+  <meta name="description" content="Análisis de carga operativa por turno en 2025. Identificación de saturación y cuellos de botella.">
+
+  <style>
+    body{
+      margin:0;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background:#0b1220;
+      color:white;
+      line-height:1.6;
+    }
+
+    header{
+      text-align:center;
+      padding:100px 20px 60px 20px;
+      background:linear-gradient(135deg,#0b1220,#0f1a33);
+    }
+
+    h1{
+      font-size:42px;
+      margin-bottom:10px;
+    }
+
+    .subtitle{
+      font-size:18px;
+      color:#b8c3df;
+      max-width:800px;
+      margin:auto;
+    }
+
+    section{
+      padding:60px 20px;
+      max-width:1000px;
+      margin:auto;
+    }
+
+    h2{
+      margin-bottom:15px;
+      border-bottom:2px solid #1f2a44;
+      padding-bottom:10px;
+    }
+
+    .card{
+      background:#101a2f;
+      padding:20px;
+      border-radius:12px;
+      margin-bottom:20px;
+    }
+
+    iframe{
+      width:100%;
+      height:500px;
+      border:none;
+      border-radius:12px;
+      background:#111;
+    }
+
+    footer{
+      text-align:center;
+      padding:40px;
+      background:#091124;
+      color:#b8c3df;
+      font-size:14px;
+    }
+
+    .highlight{
+      color:#6ea8ff;
+      font-weight:bold;
+    }
+  </style>
 </head>
-<body style="background-color:#0b1220; color:white; font-family:Arial; text-align:center; padding-top:100px;">
-  <h1>🚀 GitHub Pages funcionando correctamente</h1>
-  <p>Leonardo, ya estás en producción.</p>
+
+<body>
+
+<header>
+  <h1>¿Cuándo se satura el laboratorio?</h1>
+  <p class="subtitle">
+    Radiografía operativa de la carga por turno en 2025.
+    A partir de <span class="highlight">449.944 registros</span>,
+    identificamos patrones de presión, cuellos de botella y ventanas de capacidad disponible.
+  </p>
+</header>
+
+<section>
+  <h2>El Problema</h2>
+
+  <div class="card">
+    El laboratorio opera diariamente bajo alta demanda,
+    pero no existe una visualización estructurada que permita identificar:
+    <ul>
+      <li>Qué turnos trabajan al límite</li>
+      <li>En qué días se concentra la presión</li>
+      <li>Cuándo hay margen disponible</li>
+      <li>Qué tan frecuente es la saturación</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Cómo Medimos la Presión Operativa</h2>
+
+  <div class="card">
+    Definimos la presión operativa como la relación entre:
+    <ul>
+      <li><strong>Carga del turno:</strong> minutos ejecutados</li>
+      <li><strong>Capacidad instalada:</strong> minutos disponibles</li>
+      <li><strong>Ocupación:</strong> carga / capacidad</li>
+    </ul>
+
+    Cuando la ocupación supera el <span class="highlight">90%</span>,
+    consideramos que existe saturación operativa.
+  </div>
+</section>
+
+<section>
+  <h2>Hallazgo 1: Distribución Día vs Turno</h2>
+
+  <div class="card">
+    Mapa de calor que identifica patrones recurrentes de alta ocupación.
+  </div>
+
+  <!-- Reemplazar por visualización real -->
+  <iframe src="viz/heatmap_ocupacion.html"></iframe>
+
+</section>
+
+<section>
+  <h2>Hallazgo 2: Frecuencia de Saturación</h2>
+
+  <div class="card">
+    Distribución de ocupación por turno para identificar si la presión es ocasional o estructural.
+  </div>
+
+  <iframe src="viz/distribucion_ocupacion.html"></iframe>
+
+</section>
+
+<section>
+  <h2>Conclusión</h2>
+
+  <div class="card">
+    La saturación no es un evento aislado.
+    Es un patrón medible que se concentra por día y turno.
+    Visualizarlo permite tomar decisiones estratégicas sobre asignación de recursos,
+    balance de carga y gestión operativa.
+  </div>
+</section>
+
+<footer>
+  Proyecto final – DataLab Team  
+  <br>
+  Montaje Web: Jair Leonardo Urrea Morales
+</footer>
+
 </body>
 </html>
