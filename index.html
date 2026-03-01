@@ -1,161 +1,132 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>¿Cuándo se satura el laboratorio? | Radiografía operativa 2025</title>
-  <meta name="description" content="Análisis de carga operativa por turno en 2025. Identificación de saturación y cuellos de botella.">
-
-  <style>
-    body{
-      margin:0;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background:#0b1220;
-      color:white;
-      line-height:1.6;
-    }
-
-    header{
-      text-align:center;
-      padding:100px 20px 60px 20px;
-      background:linear-gradient(135deg,#0b1220,#0f1a33);
-    }
-
-    h1{
-      font-size:42px;
-      margin-bottom:10px;
-    }
-
-    .subtitle{
-      font-size:18px;
-      color:#b8c3df;
-      max-width:800px;
-      margin:auto;
-    }
-
-    section{
-      padding:60px 20px;
-      max-width:1000px;
-      margin:auto;
-    }
-
-    h2{
-      margin-bottom:15px;
-      border-bottom:2px solid #1f2a44;
-      padding-bottom:10px;
-    }
-
-    .card{
-      background:#101a2f;
-      padding:20px;
-      border-radius:12px;
-      margin-bottom:20px;
-    }
-
-    iframe{
-      width:100%;
-      height:500px;
-      border:none;
-      border-radius:12px;
-      background:#111;
-    }
-
-    footer{
-      text-align:center;
-      padding:40px;
-      background:#091124;
-      color:#b8c3df;
-      font-size:14px;
-    }
-
-    .highlight{
-      color:#6ea8ff;
-      font-weight:bold;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-  <h1>¿Cuándo se satura el laboratorio?</h1>
-  <p class="subtitle">
-    Radiografía operativa de la carga por turno en 2025.
-    A partir de <span class="highlight">449.944 registros</span>,
-    identificamos patrones de presión, cuellos de botella y ventanas de capacidad disponible.
-  </p>
-</header>
-
 <section>
-  <h2>El Problema</h2>
+  <h2>El problema</h2>
 
   <div class="card">
-    El laboratorio opera diariamente bajo alta demanda,
-    pero no existe una visualización estructurada que permita identificar:
+    El laboratorio opera diariamente bajo una alta demanda de análisis distribuidos en tres turnos. 
+    Sin embargo, hasta ahora no existía una visualización clara que permitiera entender 
+    cómo se distribuye realmente la carga operativa a lo largo de la semana.
+    <br><br>
+    La dirección operativa enfrenta preguntas críticas:
     <ul>
-      <li>Qué turnos trabajan al límite</li>
-      <li>En qué días se concentra la presión</li>
-      <li>Cuándo hay margen disponible</li>
-      <li>Qué tan frecuente es la saturación</li>
+      <li>¿Qué turnos trabajan al límite de su capacidad?</li>
+      <li>¿En qué días se concentra la mayor presión?</li>
+      <li>¿Cuándo existe margen disponible para recibir nuevas muestras?</li>
+      <li>¿La saturación es ocasional o estructural?</li>
     </ul>
+    La ausencia de esta lectura visual limita la toma de decisiones estratégicas 
+    sobre asignación de recursos, balance de carga y control del riesgo operativo.
   </div>
 </section>
-
 <section>
-  <h2>Cómo Medimos la Presión Operativa</h2>
+  <h2>Los datos analizados</h2>
 
   <div class="card">
-    Definimos la presión operativa como la relación entre:
+    El análisis se basa en <strong>449.895 registros históricos</strong> correspondientes al año 2025.
+    Cada registro representa un ensayo analítico ejecutado (o no ejecutado) 
+    e incluye información sobre:
     <ul>
-      <li><strong>Carga del turno:</strong> minutos ejecutados</li>
-      <li><strong>Capacidad instalada:</strong> minutos disponibles</li>
-      <li><strong>Ocupación:</strong> carga / capacidad</li>
+      <li>Fecha y hora de la muestra y finalización</li>
+      <li>Tiempo estándar de ejecución (minutos)</li>
+      <li>Laboratorio responsable</li>
+      <li>Estado del ensayo</li>
+      <li>Norma aplicada</li>
     </ul>
-
-    Cuando la ocupación supera el <span class="highlight">90%</span>,
-    consideramos que existe saturación operativa.
+    Esta base permite estudiar productividad, utilización de capacidad 
+    y patrones temporales de operación.
   </div>
 </section>
-
 <section>
-  <h2>Hallazgo 1: Distribución Día vs Turno</h2>
+  <h2>Cómo modelamos la operación</h2>
 
   <div class="card">
-    Mapa de calor que identifica patrones recurrentes de alta ocupación.
+    Para convertir los datos en una lectura operativa coherente, se realizaron tres transformaciones clave:
+    <br><br>
+
+    <strong>1. Unificación del timestamp operativo</strong><br>
+    Se consolidó una fecha confiable usando <em>Completed Date</em> y, en su ausencia, 
+    <em>FechaMuestra</em>, debido a valores faltantes en la columna de completitud.
+    <br><br>
+
+    <strong>2. Corrección de madrugada</strong><br>
+    Los registros entre 00:00 y 05:59 fueron asignados al día operativo anterior,
+    alineando correctamente el turno nocturno.
+    <br><br>
+
+    <strong>3. Clasificación por turnos</strong>
   </div>
-
-  <!-- Reemplazar por visualización real -->
-  <iframe src="viz/heatmap_ocupacion.html"></iframe>
-
 </section>
-
 <section>
-  <h2>Hallazgo 2: Frecuencia de Saturación</h2>
+  <h2>Cómo modelamos la operación</h2>
 
   <div class="card">
-    Distribución de ocupación por turno para identificar si la presión es ocasional o estructural.
+    Para convertir los datos en una lectura operativa coherente, se realizaron tres transformaciones clave:
+    <br><br>
+
+    <strong>1. Unificación del timestamp operativo</strong><br>
+    Se consolidó una fecha confiable usando <em>Completed Date</em> y, en su ausencia, 
+    <em>FechaMuestra</em>, debido a valores faltantes en la columna de completitud.
+    <br><br>
+
+    <strong>2. Corrección de madrugada</strong><br>
+    Los registros entre 00:00 y 05:59 fueron asignados al día operativo anterior,
+    alineando correctamente el turno nocturno.
+    <br><br>
+
+    <strong>3. Clasificación por turnos</strong>
   </div>
-
-  <iframe src="viz/distribucion_ocupacion.html"></iframe>
-
 </section>
-
 <section>
-  <h2>Conclusión</h2>
+  <h2>Clasificación de turnos</h2>
 
   <div class="card">
-    La saturación no es un evento aislado.
-    Es un patrón medible que se concentra por día y turno.
-    Visualizarlo permite tomar decisiones estratégicas sobre asignación de recursos,
-    balance de carga y gestión operativa.
+    <table style="width:100%; text-align:left; border-collapse:collapse;">
+      <tr style="border-bottom:1px solid #1f2a44;">
+        <th style="padding:10px;">Turno</th>
+        <th style="padding:10px;">Horario</th>
+        <th style="padding:10px;">Descripción</th>
+      </tr>
+      <tr>
+        <td style="padding:10px;">A</td>
+        <td style="padding:10px;">06:00 – 13:59</td>
+        <td style="padding:10px;">Inicio de jornada diurna</td>
+      </tr>
+      <tr>
+        <td style="padding:10px;">B</td>
+        <td style="padding:10px;">14:00 – 21:59</td>
+        <td style="padding:10px;">Turno vespertino</td>
+      </tr>
+      <tr>
+        <td style="padding:10px;">C</td>
+        <td style="padding:10px;">22:00 – 05:59</td>
+        <td style="padding:10px;">Turno nocturno (incluye madrugada)</td>
+      </tr>
+    </table>
   </div>
 </section>
+<section>
+  <h2>Marco conceptual</h2>
 
-<footer>
-  Proyecto final – DataLab Team  
-  <br>
-  Montaje Web: Jair Leonardo Urrea Morales
-</footer>
+  <div class="card">
+    Este análisis se fundamenta en principios de:
+    <ul>
+      <li><strong>Gestión de Operaciones</strong> – Capacidad instalada vs capacidad utilizada, cuellos de botella, throughput.</li>
+      <li><strong>Teoría de Colas</strong> – Variabilidad de la demanda, congestión y saturación del sistema.</li>
+      <li><strong>ISO 17025</strong> – Control del flujo de muestras y optimización de recursos.</li>
+    </ul>
+    El objetivo es traducir estos conceptos en evidencia visual aplicable a la gestión real del laboratorio.
+  </div>
+</section>
+<section>
+  <h2>Conclusión estratégica</h2>
 
-</body>
-</html>
+  <div class="card">
+    La saturación operativa no es un evento aislado.
+    Es un fenómeno medible que se concentra en determinados días y turnos.
+    <br><br>
+    Visualizar estos patrones permite anticipar cuellos de botella,
+    redistribuir carga, optimizar recursos y reducir riesgos operativos.
+    <br><br>
+    Transformar datos históricos en narrativa visual es el primer paso
+    hacia una gestión basada en evidencia.
+  </div>
+</section>
