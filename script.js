@@ -49,6 +49,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDashboard();
   });
 
+  initRevealAnimations();
+  initStoryProgress();
   loadData();
 });
 
@@ -114,8 +116,8 @@ function updateKPIs(data) {
     pctHigh: mean(values.map(v => (v.Utilizacion_Diaria > 1 ? 1 : 0)))
   })).sort((a, b) => b.pctHigh - a.pctHigh);
 
-  document.getElementById("kpiPromedio").textContent = formatPercent(avgPressure);
-  document.getElementById("kpiAltaPresion").textContent = formatPercent(pctHigh);
+  animateValue("kpiPromedio", avgPressure, "percent");
+  animateValue("kpiAltaPresion", pctHigh, "percent");
   document.getElementById("kpiTurnoCritico").textContent = turnoStats.length ? `Turno ${turnoStats[0].turno}` : "--";
 }
 
@@ -124,9 +126,7 @@ function renderTimeline(data) {
 
   data.forEach(d => {
     const key = d.Fecha_Simple;
-    if (!dailyMap.has(key)) {
-      dailyMap.set(key, []);
-    }
+    if (!dailyMap.has(key)) dailyMap.set(key, []);
     dailyMap.get(key).push(d);
   });
 
@@ -235,7 +235,7 @@ function renderBarTurnos(data) {
             color: COLORS.muted,
             callback: value => `${Math.round(value * 100)}%`
           },
-          suggestedMax: Math.max(0.4, ...values) + 0.05
+          suggestedMax: Math.max(0.4, ...values, 0.1) + 0.05
         },
         y: baseYAxis()
       }
@@ -249,7 +249,7 @@ function renderBubble(data) {
 
   const bubbleData = order
     .filter(turno => grouped[turno] && grouped[turno].length)
-    .map((turno, idx) => {
+    .map((turno) => {
       const rows = grouped[turno];
       const avgAnalistas = mean(rows.map(r => r.Analistas_Reales));
       const avgMinutos = mean(rows.map(r => r.Minutos));
@@ -270,7 +270,11 @@ function renderBubble(data) {
       datasets: [{
         label: "Turnos",
         data: bubbleData,
-        backgroundColor: ["rgba(96,165,250,0.65)", "rgba(244,197,66,0.70)", "rgba(255,139,61,0.72)"],
+        backgroundColor: [
+          "rgba(96,165,250,0.65)",
+          "rgba(244,197,66,0.70)",
+          "rgba(255,139,61,0.72)"
+        ],
         borderColor: [COLORS.blue, COLORS.yellow, COLORS.orange],
         borderWidth: 1.8
       }]
@@ -359,7 +363,7 @@ function renderScenario(data) {
             color: COLORS.muted,
             callback: value => `${Math.round(value * 100)}%`
           },
-          suggestedMax: Math.max(...values) + 0.08
+          suggestedMax: Math.max(...values, 0.1) + 0.08
         }
       }
     })
@@ -514,4 +518,79 @@ function chartOptions(customOptions = {}) {
     },
     ...customOptions
   };
+}
+
+/* Premium 2 JS */
+function initRevealAnimations() {
+  const sections = document.querySelectorAll(".reveal-section");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+      }
+    });
+  }, { threshold: 0.16 });
+
+  sections.forEach(section => observer.observe(section));
+}
+
+function initStoryProgress() {
+  const progressBar = document.getElementById("storyProgressBar");
+  const navLinks = document.querySelectorAll(".story-nav a");
+  const sections = [...navLinks]
+    .map(link => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = `${progress}%`;
+
+    let currentId = "";
+    sections.forEach(section => {
+      const top = section.offsetTop - 140;
+      if (scrollTop >= top) currentId = section.id;
+    });
+
+    navLinks.forEach(link => {
+      const href = link.getAttribute("href").replace("#", "");
+      link.classList.toggle("active", href === currentId);
+    });
+  }
+
+  window.addEventListener("scroll", updateProgress);
+  window.addEventListener("load", updateProgress);
+  updateProgress();
+}
+
+function animateValue(elementId, endValue, type = "number", duration = 1200) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+
+  if (type === "text") {
+    element.textContent = endValue;
+    return;
+  }
+
+  const startTime = performance.now();
+
+  function frame(now) {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = endValue * eased;
+
+    if (type === "percent") {
+      element.textContent = formatPercent(current);
+    } else {
+      element.textContent = round2(current);
+    }
+
+    if (progress < 1) {
+      requestAnimationFrame(frame);
+    }
+  }
+
+  requestAnimationFrame(frame);
 }
