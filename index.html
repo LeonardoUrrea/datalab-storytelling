@@ -18,9 +18,22 @@
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body>
+  <div class="story-progress">
+    <div class="story-progress-bar" id="storyProgressBar"></div>
+  </div>
+
+  <nav class="story-nav" id="storyNav">
+    <a href="#heroChapter">Contexto</a>
+    <a href="#chapter1">Diagnóstico</a>
+    <a href="#chapter2">Concentración</a>
+    <a href="#chapter3">Explicación</a>
+    <a href="#chapter4">Simulación</a>
+    <a href="#chapter5">Decisión</a>
+  </nav>
+
   <div class="page-shell">
 
-    <header class="hero">
+    <header class="hero reveal-section" id="heroChapter">
       <div class="hero-overlay"></div>
 
       <nav class="topbar">
@@ -92,7 +105,7 @@
     </header>
 
     <main>
-      <section class="controls-section">
+      <section class="controls-section reveal-section">
         <div class="section-heading">
           <span class="section-tag">Exploración interactiva</span>
           <h2>Explore la operación por turno y por mes</h2>
@@ -136,7 +149,7 @@
       </section>
 
       <section class="story-grid">
-        <article class="chart-card glass wide">
+        <article class="chart-card glass wide reveal-section" id="chapter1">
           <div class="card-head">
             <div>
               <span class="section-tag">Capítulo 1</span>
@@ -155,7 +168,7 @@
           </p>
         </article>
 
-        <article class="chart-card glass">
+        <article class="chart-card glass reveal-section" id="chapter2">
           <div class="card-head">
             <div>
               <span class="section-tag">Capítulo 2</span>
@@ -172,7 +185,7 @@
           </p>
         </article>
 
-        <article class="chart-card glass">
+        <article class="chart-card glass reveal-section" id="chapter3">
           <div class="card-head">
             <div>
               <span class="section-tag">Capítulo 3</span>
@@ -191,7 +204,7 @@
         </article>
       </section>
 
-      <section class="highlight-section glass">
+      <section class="highlight-section glass reveal-section">
         <div class="highlight-box">
           <span class="section-tag">Hallazgo clave</span>
           <h2>El cuello de botella es focalizado, no sistémico</h2>
@@ -204,7 +217,7 @@
       </section>
 
       <section class="story-grid">
-        <article class="chart-card glass wide">
+        <article class="chart-card glass wide reveal-section" id="chapter4">
           <div class="card-head">
             <div>
               <span class="section-tag">Capítulo 4</span>
@@ -224,7 +237,7 @@
         </article>
       </section>
 
-      <section class="insights-section">
+      <section class="insights-section reveal-section">
         <div class="section-heading">
           <span class="section-tag">Lectura ejecutiva</span>
           <h2>Hallazgos automáticos del filtro seleccionado</h2>
@@ -252,7 +265,7 @@
         </div>
       </section>
 
-      <section class="conclusion-section glass">
+      <section class="conclusion-section glass reveal-section" id="chapter5">
         <div class="section-heading">
           <span class="section-tag">Cierre</span>
           <h2>La decisión no es ampliar todo el sistema, sino intervenir donde más duele</h2>
