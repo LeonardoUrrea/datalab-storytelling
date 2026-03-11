@@ -1,205 +1,226 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>¿Cuándo se satura el laboratorio? | Radiografía operativa 2025</title>
-  <meta name="description" content="Radiografía operativa de la carga por turno en 2025. Saturación, cuellos de botella y capacidad disponible." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Radiografía operativa del laboratorio | Storytelling</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700&display=swap"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="styles.css" />
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
-
 <body>
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero__overlay"></div>
+  <div class="page-shell">
 
-    <!-- opcional: si quieres una imagen de fondo real, súbela a /assets/bg.jpg y descomenta en CSS -->
-    <div class="container hero__inner">
-      <div class="hero__titleblock">
-        <h1>¿Cuándo se satura el laboratorio?</h1>
-        <p class="hero__subtitle">“Radiografía operativa de la carga operativa por turno en 2025”</p>
-      </div>
+    <header class="hero">
+      <div class="hero-overlay"></div>
 
-      <div class="hero__context card card--glass">
-        <p>
-          El laboratorio de análisis químico opera todos los días bajo una alta demanda de análisis.
-          Sin embargo, no existía una visualización clara que permitiera entender cómo se distribuye
-          realmente la carga a lo largo de la semana, ni cuándo aparece saturación.
-        </p>
-
-        <p>
-          La presión operativa no es constante: los datos revelan patrones de congestión por día y turno.
-          Visualizar estos patrones permite anticipar cuellos de botella y soportar decisiones de balance
-          de carga y asignación de recursos.
-        </p>
-
-        <div class="hero__bullets">
-          <div class="bullet">¿Qué turnos trabajan al límite?</div>
-          <div class="bullet">¿En qué días se concentra la presión?</div>
-          <div class="bullet">¿Cuándo existe margen disponible?</div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- KPI STRIP -->
-  <section class="kpis">
-    <div class="container kpis__inner">
-      <div class="kpi">
-        <div class="kpi__label">Total análisis (2025)</div>
-        <div class="kpi__value">449.895</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi__label">Promedio diario</div>
-        <div class="kpi__value">1.202,93</div>
-      </div>
-      <div class="kpi">
-        <div class="kpi__label">Enfoque</div>
-        <div class="kpi__value">Día × Turno</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MAIN -->
-  <main class="container main">
-
-    <!-- STORY CARDS (compactas) -->
-    <section class="grid grid--2">
-      <article class="card">
-        <h2>Cómo modelamos la operación</h2>
-        <ol class="list">
-          <li><strong>Unificación del timestamp:</strong> Completed Date y, en su ausencia, FechaMuestra.</li>
-          <li><strong>Corrección de madrugada:</strong> 00:00–05:59 se asigna al día operativo anterior.</li>
-          <li><strong>Clasificación por turnos:</strong> A (06:00–13:59), B (14:00–21:59), C (22:00–05:59).</li>
-        </ol>
-      </article>
-
-      <article class="card">
-        <h2>Marco conceptual</h2>
-        <ul class="list">
-          <li><strong>Gestión de operaciones:</strong> capacidad instalada vs utilizada, throughput, cuellos de botella.</li>
-          <li><strong>Teoría de colas:</strong> variabilidad de demanda, congestión, saturación del sistema.</li>
-          <li><strong>ISO 17025:</strong> control del flujo y optimización de recursos.</li>
-        </ul>
-      </article>
-    </section>
-
-    <!-- MODULES GRID (similar a la imagen) -->
-    <section class="grid grid--2 grid--tight">
-      <!-- Tabla / Resumen -->
-      <article class="module">
-        <div class="module__head">
-          <h3>Resumen por turno</h3>
-          <p>Conteos, tiempos y lectura rápida para comparar presión operativa.</p>
+      <nav class="topbar">
+        <div class="brand">
+          <span class="brand-kicker">Storytelling con datos</span>
+          <h1>¿Cuándo se satura el laboratorio?</h1>
+          <p class="hero-subtitle">
+            Radiografía operativa de la carga por turno en 2025
+          </p>
         </div>
 
-        <!-- Puedes reemplazar esto por una tabla real o un iframe -->
-        <div class="module__body">
-          <div class="tablewrap">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Turno</th>
-                  <th>Horario</th>
-                  <th>Descripción</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td>A</td><td>06:00 – 13:59</td><td>Inicio jornada diurna</td></tr>
-                <tr><td>B</td><td>14:00 – 21:59</td><td>Turno vespertino</td></tr>
-                <tr><td>C</td><td>22:00 – 05:59</td><td>Turno nocturno (incluye madrugada)</td></tr>
-              </tbody>
-            </table>
+        <div class="meta-box">
+          <p><strong>Periodo:</strong> Enero – Diciembre 2025</p>
+          <p><strong>Fuente:</strong> Sistema LIMS del laboratorio</p>
+        </div>
+      </nav>
+
+      <section class="hero-content">
+        <div class="hero-copy glass">
+          <span class="section-tag">Planteamiento</span>
+          <h2>La presión operativa no es constante.</h2>
+          <p>
+            El laboratorio opera en tres turnos de 8 horas y atiende demanda continua.
+            Sin embargo, la carga no se distribuye de forma homogénea: ciertos días y
+            ciertos turnos concentran episodios de sobrecarga que deterioran la estabilidad operativa.
+          </p>
+          <p>
+            Este análisis identifica <strong>cuándo</strong> aparece esa presión,
+            <strong>dónde</strong> se concentra y <strong>qué impacto tendría reforzar el turno nocturno</strong>.
+          </p>
+        </div>
+
+        <div class="hero-kpis">
+          <article class="kpi-card glass">
+            <span class="kpi-label">Presión promedio del sistema</span>
+            <strong id="kpiPromedio">--</strong>
+            <small>Relación entre minutos procesados y capacidad dinámica</small>
+          </article>
+
+          <article class="kpi-card glass">
+            <span class="kpi-label">% de días en alta presión</span>
+            <strong id="kpiAltaPresion">--</strong>
+            <small>Días con utilización diaria superior al 100%</small>
+          </article>
+
+          <article class="kpi-card glass">
+            <span class="kpi-label">Turno más crítico</span>
+            <strong id="kpiTurnoCritico">--</strong>
+            <small>Mayor proporción de días con saturación</small>
+          </article>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="controls-section">
+        <div class="section-heading">
+          <span class="section-tag">Exploración interactiva</span>
+          <h2>Explore la operación por turno y por mes</h2>
+          <p>
+            Filtre la historia para identificar patrones y validar dónde se concentran
+            los episodios de mayor presión.
+          </p>
+        </div>
+
+        <div class="controls-card glass">
+          <div class="control-group">
+            <label for="turnoFilter">Turno</label>
+            <select id="turnoFilter">
+              <option value="Todos">Todos</option>
+              <option value="A">Turno A</option>
+              <option value="B">Turno B</option>
+              <option value="C">Turno C</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="mesFilter">Mes</label>
+            <select id="mesFilter">
+              <option value="Todos">Todos</option>
+              <option value="1">Enero</option>
+              <option value="2">Febrero</option>
+              <option value="3">Marzo</option>
+              <option value="4">Abril</option>
+              <option value="5">Mayo</option>
+              <option value="6">Junio</option>
+              <option value="7">Julio</option>
+              <option value="8">Agosto</option>
+              <option value="9">Septiembre</option>
+              <option value="10">Octubre</option>
+              <option value="11">Noviembre</option>
+              <option value="12">Diciembre</option>
+            </select>
+          </div>
+
+          <button id="resetFilters" class="btn-reset">Restablecer vista</button>
+        </div>
+      </section>
+
+      <section class="story-grid">
+        <article class="chart-card glass wide">
+          <div class="card-head">
+            <div>
+              <span class="section-tag">1. Panorama general</span>
+              <h3>Evolución diaria de la carga operativa</h3>
+            </div>
+            <p class="card-note">Línea de referencia: saturación = 100%</p>
+          </div>
+          <canvas id="timelineChart"></canvas>
+        </article>
+
+        <article class="chart-card glass">
+          <div class="card-head">
+            <div>
+              <span class="section-tag">2. Concentración de presión</span>
+              <h3>% de días críticos por turno</h3>
+            </div>
+          </div>
+          <canvas id="barTurnosChart"></canvas>
+        </article>
+
+        <article class="chart-card glass">
+          <div class="card-head">
+            <div>
+              <span class="section-tag">3. Explicación operativa</span>
+              <h3>Duración promedio vs. analistas reales</h3>
+            </div>
+          </div>
+          <canvas id="bubbleChart"></canvas>
+        </article>
+
+        <article class="chart-card glass wide">
+          <div class="card-head">
+            <div>
+              <span class="section-tag">4. Escenario de mejora</span>
+              <h3>¿Qué pasa si reforzamos el turno C?</h3>
+            </div>
+            <p class="card-note">Simulación basada en +1 y +2 analistas equivalentes en turno C</p>
+          </div>
+          <canvas id="scenarioChart"></canvas>
+        </article>
+      </section>
+
+      <section class="insights-section">
+        <div class="section-heading">
+          <span class="section-tag">Lectura ejecutiva</span>
+          <h2>Hallazgos automáticos del filtro seleccionado</h2>
+        </div>
+
+        <div class="insights-grid">
+          <article class="insight-box glass">
+            <h3>Diagnóstico</h3>
+            <p id="insightDiagnostico">Cargando diagnóstico...</p>
+          </article>
+
+          <article class="insight-box glass">
+            <h3>Explicación</h3>
+            <p id="insightExplicacion">Cargando explicación...</p>
+          </article>
+
+          <article class="insight-box glass">
+            <h3>Recomendación</h3>
+            <p id="insightRecomendacion">Cargando recomendación...</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="conclusion-section glass">
+        <div class="section-heading">
+          <span class="section-tag">Cierre</span>
+          <h2>Conclusiones operativas</h2>
+        </div>
+
+        <div class="conclusion-grid">
+          <div>
+            <h3>Principales hallazgos</h3>
+            <ul>
+              <li>El sistema mantiene capacidad en promedio, pero presenta episodios frecuentes de alta presión operativa.</li>
+              <li>El turno nocturno concentra la mayor proporción de días críticos.</li>
+              <li>La simulación muestra que reforzar el turno C reduce de forma importante la frecuencia de saturación.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3>Recomendación ejecutiva</h3>
+            <p>
+              Priorizar refuerzo operativo focalizado en el turno C. La primera adición genera
+              el mayor retorno marginal en estabilidad, y una segunda adición profundiza la reducción
+              de riesgo operativo.
+            </p>
           </div>
         </div>
+      </section>
+    </main>
 
-        <div class="module__foot">
-          <strong>Interpretación:</strong> estandarizar turnos asegura comparabilidad operativa día a día.
-        </div>
-      </article>
+    <footer class="footer">
+      <p>Visualización y Storytelling · Maestría en Inteligencia Analítica de Datos · Universidad de los Andes · 2026</p>
+    </footer>
+  </div>
 
-      <!-- Heatmap -->
-      <article class="module">
-        <div class="module__head">
-          <h3>Mapa de calor: Día vs Turno</h3>
-          <p>Identifica zonas recurrentes de alta ocupación (≥ 90%).</p>
-        </div>
-
-        <div class="module__body">
-          <iframe class="viz" src="viz/heatmap_ocupacion.html" title="Heatmap ocupación día vs turno"></iframe>
-        </div>
-
-        <div class="module__foot">
-          <strong>Interpretación:</strong> los bloques repetidos de alta ocupación sugieren saturación estructural.
-        </div>
-      </article>
-
-      <!-- Distribución -->
-      <article class="module">
-        <div class="module__head">
-          <h3>Distribución de ocupación</h3>
-          <p>Cuantifica si la presión es ocasional o sistemática.</p>
-        </div>
-
-        <div class="module__body">
-          <iframe class="viz" src="viz/distribucion_ocupacion.html" title="Distribución de ocupación"></iframe>
-        </div>
-
-        <div class="module__foot">
-          <strong>Interpretación:</strong> masa significativa por encima del 90% indica presión recurrente.
-        </div>
-      </article>
-
-      <!-- Ranking -->
-      <article class="module">
-        <div class="module__head">
-          <h3>Ranking de turnos críticos</h3>
-          <p>Prioriza intervención donde la saturación se repite.</p>
-        </div>
-
-        <div class="module__body">
-          <iframe class="viz" src="viz/turnos_criticos.html" title="Turnos críticos"></iframe>
-        </div>
-
-        <div class="module__foot">
-          <strong>Interpretación:</strong> la recurrencia manda: primero lo repetible, después lo aislado.
-        </div>
-      </article>
-    </section>
-
-    <!-- Wide module (como la gráfica grande al final) -->
-    <section class="module module--wide">
-      <div class="module__head">
-        <h3>Serie temporal: presión operativa a lo largo del tiempo</h3>
-        <p>Visión longitudinal para detectar picos y tendencia por turno.</p>
-      </div>
-
-      <div class="module__body">
-        <iframe class="viz viz--wide" src="viz/serie_tiempo_turnos.html" title="Serie temporal por turno"></iframe>
-      </div>
-
-      <div class="module__foot">
-        <strong>Interpretación:</strong> picos sostenidos requieren acciones de capacidad (recursos, secuenciación o priorización).
-      </div>
-    </section>
-
-    <!-- Cierre -->
-    <section class="card card--accent">
-      <h2>Conclusión estratégica</h2>
-      <p>
-        La saturación operativa no es un evento aislado. Es un patrón medible por día y turno.
-        Convertir históricos en narrativa visual permite anticipar cuellos de botella, redistribuir carga,
-        optimizar recursos y reducir riesgo operativo.
-      </p>
-    </section>
-
-  </main>
-
-  <footer class="footer">
-    <div class="container footer__inner">
-      <div>Proyecto final – Visualización & Storytelling</div>
-      <div class="muted">Montaje web: Jair Leonardo Urrea Morales</div>
-    </div>
-  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
