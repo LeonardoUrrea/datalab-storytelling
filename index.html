@@ -26,9 +26,9 @@
       <nav class="topbar">
         <div class="brand">
           <span class="brand-kicker">Storytelling con datos</span>
-          <h1>¿Cuándo se satura el laboratorio?</h1>
+          <h1>Cuando la operación parece estable, la presión se concentra en la noche</h1>
           <p class="hero-subtitle">
-            Radiografía operativa de la carga por turno en 2025
+            Una lectura operativa de la saturación del laboratorio y de las decisiones que podrían aliviarla
           </p>
         </div>
 
@@ -41,15 +41,22 @@
       <section class="hero-content">
         <div class="hero-copy glass">
           <span class="section-tag">Planteamiento</span>
-          <h2>La presión operativa no es constante.</h2>
+          <h2>La presión operativa no se distribuye de forma homogénea.</h2>
           <p>
-            El laboratorio opera en tres turnos de 8 horas y atiende demanda continua.
-            Sin embargo, la carga no se distribuye de forma homogénea: ciertos días y
-            ciertos turnos concentran episodios de sobrecarga que deterioran la estabilidad operativa.
+            El laboratorio opera de forma continua durante los tres turnos del día y, en promedio,
+            parece mantener una capacidad suficiente para atender la demanda. Sin embargo, esa lectura
+            general oculta un patrón importante: la presión operativa no se distribuye de forma homogénea.
           </p>
           <p>
-            Este análisis identifica <strong>cuándo</strong> aparece esa presión,
-            <strong>dónde</strong> se concentra y <strong>qué impacto tendría reforzar el turno nocturno</strong>.
+            A lo largo de 2025, ciertos días y ciertos turnos concentraron episodios de sobrecarga
+            que tensionan la operación, aumentan la exigencia sobre el personal y revelan un cuello
+            de botella puntual.
+          </p>
+          <p>
+            Esta historia busca responder tres preguntas:
+            <strong>cuándo aparece la saturación</strong>,
+            <strong>dónde se concentra</strong> y
+            <strong>qué pasaría si se reforzara el turno con mayor presión</strong>.
           </p>
         </div>
 
@@ -57,19 +64,28 @@
           <article class="kpi-card glass">
             <span class="kpi-label">Presión promedio del sistema</span>
             <strong id="kpiPromedio">--</strong>
-            <small>Relación entre minutos procesados y capacidad dinámica</small>
+            <small>
+              En promedio, el sistema opera por debajo del límite crítico, pero con cercanía suficiente
+              para que pequeños aumentos de carga generen tensión operativa.
+            </small>
           </article>
 
           <article class="kpi-card glass">
             <span class="kpi-label">% de días en alta presión</span>
             <strong id="kpiAltaPresion">--</strong>
-            <small>Días con utilización diaria superior al 100%</small>
+            <small>
+              La sobrecarga no es permanente, pero sí recurrente: una proporción relevante de días
+              supera el umbral de operación confortable.
+            </small>
           </article>
 
           <article class="kpi-card glass">
             <span class="kpi-label">Turno más crítico</span>
             <strong id="kpiTurnoCritico">--</strong>
-            <small>Mayor proporción de días con saturación</small>
+            <small>
+              La criticidad no está distribuida por igual. Un turno concentra la mayor parte de los
+              episodios de saturación.
+            </small>
           </article>
         </div>
       </section>
@@ -81,8 +97,7 @@
           <span class="section-tag">Exploración interactiva</span>
           <h2>Explore la operación por turno y por mes</h2>
           <p>
-            Filtre la historia para identificar patrones y validar dónde se concentran
-            los episodios de mayor presión.
+            El promedio muestra estabilidad. El detalle revela dónde realmente está el problema.
           </p>
         </div>
 
@@ -124,43 +139,88 @@
         <article class="chart-card glass wide">
           <div class="card-head">
             <div>
-              <span class="section-tag">1. Panorama general</span>
-              <h3>Evolución diaria de la carga operativa</h3>
+              <span class="section-tag">Capítulo 1</span>
+              <h3>La presión existe, pero no se manifiesta todos los días</h3>
             </div>
             <p class="card-note">Línea de referencia: saturación = 100%</p>
           </div>
+          <p class="section-copy">
+            La operación diaria muestra una base relativamente estable, interrumpida por picos que superan
+            el umbral de saturación. El problema no es un colapso continuo del sistema, sino la aparición
+            repetida de episodios críticos.
+          </p>
           <canvas id="timelineChart"></canvas>
+          <p class="section-takeaway">
+            Estos picos no son ruido aislado: son la señal de una presión operativa concentrada que merece análisis por turno.
+          </p>
         </article>
 
         <article class="chart-card glass">
           <div class="card-head">
             <div>
-              <span class="section-tag">2. Concentración de presión</span>
-              <h3>% de días críticos por turno</h3>
+              <span class="section-tag">Capítulo 2</span>
+              <h3>La criticidad se concentra en un turno específico</h3>
             </div>
           </div>
+          <p class="section-copy">
+            Cuando se distribuyen los días de alta presión por turno, la operación deja de verse homogénea.
+            La mayor frecuencia de saturación aparece en el turno nocturno, convirtiéndolo en el principal foco de atención.
+          </p>
           <canvas id="barTurnosChart"></canvas>
+          <p class="section-takeaway">
+            El problema no está repartido de forma uniforme: <strong>la noche concentra la mayor presión operativa del sistema.</strong>
+          </p>
         </article>
 
         <article class="chart-card glass">
           <div class="card-head">
             <div>
-              <span class="section-tag">3. Explicación operativa</span>
-              <h3>Duración promedio vs. analistas reales</h3>
+              <span class="section-tag">Capítulo 3</span>
+              <h3>La noche no solo concentra más presión: también procesa una carga más exigente</h3>
             </div>
           </div>
+          <p class="section-copy">
+            La mayor criticidad del turno C no se explica únicamente por frecuencia, sino también por intensidad.
+            Allí coinciden una demanda operativa elevada, una duración promedio mayor y una relación más exigente
+            entre minutos procesados y capacidad disponible.
+          </p>
           <canvas id="bubbleChart"></canvas>
+          <p class="section-takeaway">
+            En otras palabras: el turno más crítico no solo trabaja más bajo presión, sino que recibe una combinación operativa que favorece la saturación.
+          </p>
         </article>
+      </section>
 
+      <section class="highlight-section glass">
+        <div class="highlight-box">
+          <span class="section-tag">Hallazgo clave</span>
+          <h2>El cuello de botella es focalizado, no sistémico</h2>
+          <p>
+            Aunque el laboratorio no está saturado de manera permanente, el turno C concentra la mayor
+            proporción de días críticos. Esto sugiere que el principal cuello de botella no es sistémico,
+            sino focalizado en una franja operativa específica.
+          </p>
+        </div>
+      </section>
+
+      <section class="story-grid">
         <article class="chart-card glass wide">
           <div class="card-head">
             <div>
-              <span class="section-tag">4. Escenario de mejora</span>
-              <h3>¿Qué pasa si reforzamos el turno C?</h3>
+              <span class="section-tag">Capítulo 4</span>
+              <h3>Una intervención puntual reduce de forma visible la presión operativa</h3>
             </div>
             <p class="card-note">Simulación basada en +1 y +2 analistas equivalentes en turno C</p>
           </div>
+          <p class="section-copy">
+            Si el problema está concentrado, la solución también puede estarlo. En lugar de ampliar capacidad
+            de forma general, se simuló un refuerzo puntual sobre el turno con mayor presión para evaluar
+            su efecto sobre la estabilidad del sistema.
+          </p>
           <canvas id="scenarioChart"></canvas>
+          <p class="section-takeaway">
+            El primer analista adicional genera el mayor retorno operativo. Un segundo refuerzo sigue mejorando el desempeño, aunque con menor ganancia incremental.
+          </p>
         </article>
       </section>
 
@@ -168,6 +228,10 @@
         <div class="section-heading">
           <span class="section-tag">Lectura ejecutiva</span>
           <h2>Hallazgos automáticos del filtro seleccionado</h2>
+          <p>
+            Esta lectura se actualiza según el turno o el mes elegido y resume el diagnóstico, la explicación
+            y la recomendación derivada de los datos observados.
+          </p>
         </div>
 
         <div class="insights-grid">
@@ -191,27 +255,33 @@
       <section class="conclusion-section glass">
         <div class="section-heading">
           <span class="section-tag">Cierre</span>
-          <h2>Conclusiones operativas</h2>
+          <h2>La decisión no es ampliar todo el sistema, sino intervenir donde más duele</h2>
         </div>
 
         <div class="conclusion-grid">
           <div>
-            <h3>Principales hallazgos</h3>
+            <h3>Lo que muestran los datos</h3>
             <ul>
-              <li>El sistema mantiene capacidad en promedio, pero presenta episodios frecuentes de alta presión operativa.</li>
-              <li>El turno nocturno concentra la mayor proporción de días críticos.</li>
-              <li>La simulación muestra que reforzar el turno C reduce de forma importante la frecuencia de saturación.</li>
+              <li>El laboratorio mantiene una operación global relativamente estable, pero presenta episodios recurrentes de sobrecarga.</li>
+              <li>Esa presión no está distribuida de forma uniforme: el turno C concentra la mayor criticidad.</li>
+              <li>La simulación indica que un refuerzo focalizado en ese turno reduce de manera importante la frecuencia de saturación.</li>
             </ul>
           </div>
 
           <div>
             <h3>Recomendación ejecutiva</h3>
             <p>
-              Priorizar refuerzo operativo focalizado en el turno C. La primera adición genera
-              el mayor retorno marginal en estabilidad, y una segunda adición profundiza la reducción
-              de riesgo operativo.
+              Priorizar refuerzo operativo en el turno C antes de considerar ampliaciones generales de capacidad.
+              El dato sugiere que la mejor decisión no es crecer en todas partes, sino actuar con precisión en el
+              punto donde la presión realmente se concentra.
             </p>
           </div>
+        </div>
+
+        <div class="final-quote">
+          <p>
+            La operación no necesita más capacidad en todas partes; necesita precisión en el turno donde la presión realmente se acumula.
+          </p>
         </div>
       </section>
     </main>
