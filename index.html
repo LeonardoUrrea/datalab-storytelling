@@ -29,6 +29,7 @@
     <a href="#chapter3">Explicación</a>
     <a href="#chapter4">Simulación</a>
     <a href="#chapter5">Decisión</a>
+    <a href="#chapter6">Informe</a>
   </nav>
 
   <div class="page-shell">
@@ -232,37 +233,24 @@
           </p>
           <canvas id="scenarioChart"></canvas>
           <p class="section-takeaway">
-            El primer analista adicional genera el mayor retorno operativo. Un segundo refuerzo sigue mejorando el desempeño, aunque con menor ganancia incremental.
+            Un refuerzo localizado genera una mejora visible sin necesidad de expandir toda la operación.
           </p>
         </article>
-      </section>
 
-      <section class="insights-section reveal-section">
-        <div class="section-heading">
-          <span class="section-tag">Lectura ejecutiva</span>
-          <h2>Hallazgos automáticos del filtro seleccionado</h2>
-          <p>
-            Esta lectura se actualiza según el turno o el mes elegido y resume el diagnóstico, la explicación
-            y la recomendación derivada de los datos observados.
-          </p>
-        </div>
+        <article class="insight-box glass reveal-section">
+          <h3>Diagnóstico</h3>
+          <p id="insightDiagnostico">Cargando diagnóstico...</p>
+        </article>
 
-        <div class="insights-grid">
-          <article class="insight-box glass">
-            <h3>Diagnóstico</h3>
-            <p id="insightDiagnostico">Cargando diagnóstico...</p>
-          </article>
+        <article class="insight-box glass reveal-section">
+          <h3>Explicación</h3>
+          <p id="insightExplicacion">Cargando explicación...</p>
+        </article>
 
-          <article class="insight-box glass">
-            <h3>Explicación</h3>
-            <p id="insightExplicacion">Cargando explicación...</p>
-          </article>
-
-          <article class="insight-box glass">
-            <h3>Recomendación</h3>
-            <p id="insightRecomendacion">Cargando recomendación...</p>
-          </article>
-        </div>
+        <article class="insight-box glass reveal-section">
+          <h3>Recomendación</h3>
+          <p id="insightRecomendacion">Cargando recomendación...</p>
+        </article>
       </section>
 
       <section class="conclusion-section glass reveal-section" id="chapter5">
@@ -296,6 +284,42 @@
             La operación no necesita más capacidad en todas partes; necesita precisión en el turno donde la presión realmente se acumula.
           </p>
         </div>
+      </section>
+
+      <!-- NUEVA SECCIÓN PDF -->
+      <section class="pdf-section glass reveal-section" id="chapter6">
+        <div class="section-heading">
+          <span class="section-tag">Anexo documental</span>
+          <h2>Informe de documentación del proyecto</h2>
+          <p>
+            Para complementar la narrativa visual, aquí se incluye el informe técnico completo en formato PDF.
+            Puede consultarlo en línea o descargarlo directamente.
+          </p>
+        </div>
+
+        <div class="pdf-actions">
+          <a id="pdfOpenLink" class="pdf-btn primary" href="PROYECTOR_2.pdf" target="_blank" rel="noopener noreferrer">
+            Ver informe en línea
+          </a>
+
+          <a id="pdfDownloadLink" class="pdf-btn secondary" href="PROYECTOR_2.pdf" download>
+            Descargar PDF
+          </a>
+        </div>
+
+        <div class="pdf-embed-wrap">
+          <iframe
+            id="pdfViewer"
+            class="pdf-embed"
+            src="PROYECTOR_2.pdf"
+            title="Informe PDF del proyecto"
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <p class="pdf-note">
+          Si el visor no carga en su navegador, use el botón <strong>“Ver informe en línea”</strong>.
+        </p>
       </section>
     </main>
 
