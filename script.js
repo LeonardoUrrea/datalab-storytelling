@@ -1,5 +1,12 @@
 const CSV_PATH = "resumen_dia_turno.csv";
 
+const PDF_CONFIG = {
+  local: "PROYECTOR_2.pdf",
+  online: "PROYECTOR_2.pdf"
+  // Si después publica el PDF en otra URL pública,
+  // puede reemplazar "online" por esa ruta completa.
+};
+
 const MONTHS_ES = [
   "", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
   "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -18,6 +25,7 @@ const COLORS = {
 };
 
 let rawData = [];
+
 let charts = {
   timeline: null,
   barTurnos: null,
@@ -31,26 +39,39 @@ const state = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("turnoFilter").addEventListener("change", (e) => {
-    state.turno = e.target.value;
-    updateDashboard();
-  });
+  const turnoFilter = document.getElementById("turnoFilter");
+  const mesFilter = document.getElementById("mesFilter");
+  const resetFilters = document.getElementById("resetFilters");
 
-  document.getElementById("mesFilter").addEventListener("change", (e) => {
-    state.mes = e.target.value;
-    updateDashboard();
-  });
+  if (turnoFilter) {
+    turnoFilter.addEventListener("change", (e) => {
+      state.turno = e.target.value;
+      updateDashboard();
+    });
+  }
 
-  document.getElementById("resetFilters").addEventListener("click", () => {
-    state.turno = "Todos";
-    state.mes = "Todos";
-    document.getElementById("turnoFilter").value = "Todos";
-    document.getElementById("mesFilter").value = "Todos";
-    updateDashboard();
-  });
+  if (mesFilter) {
+    mesFilter.addEventListener("change", (e) => {
+      state.mes = e.target.value;
+      updateDashboard();
+    });
+  }
+
+  if (resetFilters) {
+    resetFilters.addEventListener("click", () => {
+      state.turno = "Todos";
+      state.mes = "Todos";
+
+      if (turnoFilter) turnoFilter.value = "Todos";
+      if (mesFilter) mesFilter.value = "Todos";
+
+      updateDashboard();
+    });
+  }
 
   initRevealAnimations();
   initStoryProgress();
+  initPdfLinks();
   loadData();
 });
 
@@ -76,6 +97,8 @@ function loadData() {
           d.Fecha_Simple &&
           !Number.isNaN(d.Minutos) &&
           !Number.isNaN(d.Capacidad_Dinamica) &&
+          d.fecha instanceof Date &&
+          !Number.isNaN(d.fecha.getTime()) &&
           d.fecha.getFullYear() === 2025
         );
 
@@ -111,17 +134,26 @@ function updateKPIs(data) {
   const pctHigh = mean(data.map(d => (d.Utilizacion_Diaria > 1 ? 1 : 0)));
 
   const byTurno = groupBy(rawData, "Turno");
-  const turnoStats = Object.entries(byTurno).map(([turno, values]) => ({
-    turno,
-    pctHigh: mean(values.map(v => (v.Utilizacion_Diaria > 1 ? 1 : 0)))
-  })).sort((a, b) => b.pctHigh - a.pctHigh);
+  const turnoStats = Object.entries(byTurno)
+    .map(([turno, values]) => ({
+      turno,
+      pctHigh: mean(values.map(v => (v.Utilizacion_Diaria > 1 ? 1 : 0)))
+    }))
+    .sort((a, b) => b.pctHigh - a.pctHigh);
 
   animateValue("kpiPromedio", avgPressure, "percent");
   animateValue("kpiAltaPresion", pctHigh, "percent");
-  document.getElementById("kpiTurnoCritico").textContent = turnoStats.length ? `Turno ${turnoStats[0].turno}` : "--";
+
+  const kpiTurnoCritico = document.getElementById("kpiTurnoCritico");
+  if (kpiTurnoCritico) {
+    kpiTurnoCritico.textContent = turnoStats.length ? `Turno ${turnoStats[0].turno}` : "--";
+  }
 }
 
 function renderTimeline(data) {
+  const canvas = document.getElementById("timelineChart");
+  if (!canvas) return;
+
   const dailyMap = new Map();
 
   data.forEach(d => {
@@ -141,7 +173,7 @@ function renderTimeline(data) {
   const values = ordered.map(d => round2(d.util));
 
   destroyChart("timeline");
-  charts.timeline = new Chart(document.getElementById("timelineChart"), {
+  charts.timeline = new Chart(canvas, {
     type: "line",
     data: {
       labels,
@@ -193,6 +225,9 @@ function renderTimeline(data) {
 }
 
 function renderBarTurnos(data) {
+  const canvas = document.getElementById("barTurnosChart");
+  if (!canvas) return;
+
   const grouped = groupBy(data, "Turno");
   const order = ["A", "B", "C"];
 
@@ -207,7 +242,7 @@ function renderBarTurnos(data) {
   });
 
   destroyChart("barTurnos");
-  charts.barTurnos = new Chart(document.getElementById("barTurnosChart"), {
+  charts.barTurnos = new Chart(canvas, {
     type: "bar",
     data: {
       labels,
@@ -244,6 +279,9 @@ function renderBarTurnos(data) {
 }
 
 function renderBubble(data) {
+  const canvas = document.getElementById("bubbleChart");
+  if (!canvas) return;
+
   const grouped = groupBy(data, "Turno");
   const order = ["A", "B", "C"];
 
@@ -264,7 +302,7 @@ function renderBubble(data) {
     });
 
   destroyChart("bubble");
-  charts.bubble = new Chart(document.getElementById("bubbleChart"), {
+  charts.bubble = new Chart(canvas, {
     type: "bubble",
     data: {
       datasets: [{
@@ -290,7 +328,7 @@ function renderBubble(data) {
                 `Turno ${point.turno}`,
                 `Analistas promedio: ${point.x}`,
                 `Minutos promedio: ${point.y}`,
-                `Tamaño burbuja: presión crítica relativa`
+                "Tamaño burbuja: presión crítica relativa"
               ];
             }
           }
@@ -319,6 +357,9 @@ function renderBubble(data) {
 }
 
 function renderScenario(data) {
+  const canvas = document.getElementById("scenarioChart");
+  if (!canvas) return;
+
   const actual = mean(data.map(d => (d.Utilizacion_Diaria > 1 ? 1 : 0)));
 
   const mas1 = mean(data.map(d => {
@@ -335,7 +376,7 @@ function renderScenario(data) {
   const values = [actual, mas1, mas2];
 
   destroyChart("scenario");
-  charts.scenario = new Chart(document.getElementById("scenarioChart"), {
+  charts.scenario = new Chart(canvas, {
     type: "bar",
     data: {
       labels,
@@ -371,6 +412,12 @@ function renderScenario(data) {
 }
 
 function updateInsights(data) {
+  const diagnosticoEl = document.getElementById("insightDiagnostico");
+  const explicacionEl = document.getElementById("insightExplicacion");
+  const recomendacionEl = document.getElementById("insightRecomendacion");
+
+  if (!diagnosticoEl || !explicacionEl || !recomendacionEl) return;
+
   const avgPressure = mean(data.map(d => safeDivide(d.Minutos, d.Capacidad_Dinamica)));
   const pctHigh = mean(data.map(d => (d.Utilizacion_Diaria > 1 ? 1 : 0)));
 
@@ -412,13 +459,14 @@ function updateInsights(data) {
   const reduction = actualReduction(pctHigh, scenario1);
 
   let recomendacion = `La mejor acción de corto plazo es reforzar el turno C. Bajo la simulación, adicionar un analista equivalente reduce la alta presión en ${formatPercent(reduction, 0)} respecto al escenario actual.`;
+
   if (state.turno !== "Todos" && state.turno !== "C") {
     recomendacion += " Aun así, el principal apalancador del sistema sigue estando en el turno nocturno.";
   }
 
-  document.getElementById("insightDiagnostico").textContent = diagnostico;
-  document.getElementById("insightExplicacion").textContent = explicacion;
-  document.getElementById("insightRecomendacion").textContent = recomendacion;
+  diagnosticoEl.textContent = diagnostico;
+  explicacionEl.textContent = explicacion;
+  recomendacionEl.textContent = recomendacion;
 }
 
 function actualReduction(actual, improved) {
@@ -454,7 +502,9 @@ function formatPercent(value, decimals = 1) {
 }
 
 function formatNumber(value) {
-  return new Intl.NumberFormat("es-CO", { maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("es-CO", {
+    maximumFractionDigits: 0
+  }).format(value);
 }
 
 function formatDateShort(dateString) {
@@ -523,6 +573,7 @@ function chartOptions(customOptions = {}) {
 /* Premium 2 JS */
 function initRevealAnimations() {
   const sections = document.querySelectorAll(".reveal-section");
+  if (!sections.length) return;
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -538,6 +589,9 @@ function initRevealAnimations() {
 function initStoryProgress() {
   const progressBar = document.getElementById("storyProgressBar");
   const navLinks = document.querySelectorAll(".story-nav a");
+
+  if (!progressBar || !navLinks.length) return;
+
   const sections = [...navLinks]
     .map(link => document.querySelector(link.getAttribute("href")))
     .filter(Boolean);
@@ -546,6 +600,7 @@ function initStoryProgress() {
     const scrollTop = window.scrollY;
     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
     const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+
     progressBar.style.width = `${progress}%`;
 
     let currentId = "";
@@ -593,4 +648,22 @@ function animateValue(elementId, endValue, type = "number", duration = 1200) {
   }
 
   requestAnimationFrame(frame);
+}
+
+function initPdfLinks() {
+  const openLink = document.getElementById("pdfOpenLink");
+  const downloadLink = document.getElementById("pdfDownloadLink");
+  const viewer = document.getElementById("pdfViewer");
+
+  if (openLink) {
+    openLink.href = PDF_CONFIG.online || PDF_CONFIG.local;
+  }
+
+  if (downloadLink) {
+    downloadLink.href = PDF_CONFIG.local;
+  }
+
+  if (viewer) {
+    viewer.src = PDF_CONFIG.local;
+  }
 }
